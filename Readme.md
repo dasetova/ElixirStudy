@@ -12,3 +12,7 @@
 + **c(module_file):** Comando de elixir para compilar
 + **exs:** Archivo que contiene varios comandos de elixir para ser ejecutados en una sola línea
 + **drop.ex:** Archivo que contienen un ejemplo basico de creacion de modulo con funciones públicas y privadas
+
+##Capítulo 3 - Atoms, Tupples and Pattern Matching
++ **Atom:** Una especia de variable definida por los ":" con un nombre, el valor que guarda es el mismo nombre. Ver la implementación realizada sobre las funciones del módulo drop. Pueden contener en su nombre "_" o "@".
++ **Guards:** Añadir una condición para ejecutar una función, evitando errores.
