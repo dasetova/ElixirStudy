@@ -42,4 +42,14 @@
     + *IO.getn:* Permite obtener algunos caracteres, ver ejemplo en archivo ask.ex
     + *IO.gets:* Permite recibir una linea completa de texto, ver ejemplo en archivo ask.ex
 
- 
+## Capítulo 6: Lists
++ **List basics**
+    + *Generalidades:*Ordenada y recorrida en orden generalmente (del primero al último)
+    + *No tipadas:*Pueden contener cualquier tipo de dato, pero se recomienda trabajar con un único tipo
+    + *Pattern:* [1,x,4,y] = [1,2,4,8] Se tiene que x=2; y=8
+    + *Lista en otra:* insert = [2,4,8]; full = [1,insert,16,32] ocasiona full = [1,[2,4,8],16,32]. 
+    + *List.flatten:* Para aplanar la lista anterior en una sóla lista con List.flatten(full); se obtiene full = [1,2,4,8,16,32]
+    + *Lista de listas:* a = [1,2,4]; b = [8,16,32]; list_of_lists = [a,b]  (esto es [[1,2,4],[8,16,32]]).
+    + *Enum.concat:* Combinar dos listas con Enum.concat(a,b) o con '++' => a ++ b
+    + *Heads and Tails:* [head | tail] = [1,2,4] guarda la primera posición en la variable definida para el head y el resto en la variable definida para el tail.
+    
