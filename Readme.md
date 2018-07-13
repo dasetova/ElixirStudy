@@ -20,8 +20,26 @@
 + **Tuplas:** Estructura que puede contener cualquier cosa, generalmente se coloca un atom al principio que especifica su uso. Va en orden de 0 a n. 
 + **Funciones sobre las tuplas:** elem-> obtener un valor; put_elem -> ingresar un valor; tuple_size -> conocer el tamaño.
 
-## Capítulo 3: Logic and Recursion
+## Capítulo 4: Logic and Recursion
 + **case:** Validacion de tipo switch --> case, ver archivo drop. Se puede guardar el resultado en una variable. Cada posibilidad del case puede contener un guard (when).
 + **cond:** Realiza varias validaciones, se asemeja a un if...elseif.. anidado. También se puede guardar el resultado en una variable.
 + **IO.puts:** Imprime en consola una línea.
 + **Recursing:** Llamado de la "misma funcion" de esta misma. Es parcialmente cierto, dado que en elixir es preferible llevar el control del final de la recursividad mediante otra función igual con diferente guard. Podría hacerse en una misma función con un if pero es mejor visto o mejor práctica mantener todo separado mediante guards.
+
+## Capítulo 5: Communicating with Humans
++ **Comilla, salto de linea y backslash en texto:** "Quote - \" in a string. \n Backslash, too: \\ . \n"
++ **Concantenación:** Se realiza mediante el "<>". "el" <> "ixir" retornaría "elixir"
++ **Interpolación:** Se hace mediante el {}. IO.puts("#{n} yields #{result}.") El interior es procesado para obtener un valor.
++ **Comparación de cadenas:** Se puede utilizar == (exacto) o === (estrictamente igual)
++ **Cadena multilínea:** Se inicia y finaliza con """ 
++ **Characters list:** Propio de erlang, el valor va en comilla simple 'valor' y se concatena con ++. 'el' ++ 'ixir' = 'elixir'. List.to_string y String.to_char_list se pueden usar para convertir entre cadenas y listas de caracteres.
++ **String Sigils:** Establece el tipo de caracteres que contendran una cadena. Inicia con ~ más el caracter:
+ + *s:* Binary String
+ + *c:* Lista de caracteres
+ + *r:* Expresión regular
+ + *w:* Lista dividida en palabras por espacios en blanco
++ **Solicitar información al usuario:** 
+ + *IO.getn:* Permite obtener algunos caracteres, ver ejemplo en archivo ask.ex
+ + *IO.gets:* Permite recibir una linea completa de texto, ver ejemplo en archivo ask.ex
+
+ 
