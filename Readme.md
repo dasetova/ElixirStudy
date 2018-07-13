@@ -20,3 +20,8 @@
 + **Tuplas:** Estructura que puede contener cualquier cosa, generalmente se coloca un atom al principio que especifica su uso. Va en orden de 0 a n. 
 + **Funciones sobre las tuplas:** elem-> obtener un valor; put_elem -> ingresar un valor; tuple_size -> conocer el tamaño.
 
+## Capítulo 3: Logic and Recursion
++ **case:** Validacion de tipo switch --> case, ver archivo drop. Se puede guardar el resultado en una variable. Cada posibilidad del case puede contener un guard (when).
++ **cond:** Realiza varias validaciones, se asemeja a un if...elseif.. anidado. También se puede guardar el resultado en una variable.
++ **IO.puts:** Imprime en consola una línea.
++ **Recursing:** Llamado de la "misma funcion" de esta misma. Es parcialmente cierto, dado que en elixir es preferible llevar el control del final de la recursividad mediante otra función igual con diferente guard. Podría hacerse en una misma función con un if pero es mejor visto o mejor práctica mantener todo separado mediante guards.

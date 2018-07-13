@@ -1,4 +1,9 @@
 defmodule Drop do
+    @moduledoc """
+    Modulo de diferentes creaciones para fall_velocity
+    El calculo de la velocidad de caída de un cuerpo en diferentes "planemos"
+    """
+
     #Para importar un modulo de Erlang se debe usar :
     import :math, only: [sqrt: 1] #Only permite solo importar esa funcion
     #El import se puede hacer dentro del modulo o dentro de la funcion que lo va usar si solo una funcion requiere usar dicho modulo
@@ -6,12 +11,63 @@ defmodule Drop do
 
 
     @doc """
-        Método para calcular la velocidad de caída, el parámetro gravedad es opcional
+        Trasladando la validacion adentro de la funcion y no creando tres funciones
+        También se puede hacer sin la variable gravity
     """
-    #def fall_velocity(distance, gravity \\ 9.8) do
-    #    sqrt(2*9.8*distance)
-    #end
+    def fall_velocity_case(planemo, distance) when distance >= 0 do
+        gravity = case planemo do
+            :earth -> 9.8
+            :moon -> 1.6
+            :mars -> 3.71
+        end
+        sqrt(2*gravity*distance)
+    end
 
+    def fall_velocity_case_when(planemo, distance) do
+        gravity = case planemo do
+            :earth when distance >= 0 -> 9.8
+            :moon when distance >= 0 -> 1.6
+            :mars when distance >= 0 -> 3.71
+        end
+        sqrt(2*gravity*distance)
+    end
+
+    def fall_velocity_case_cond(planemo, distance) when distance >= 0 do
+        gravity = case planemo do
+            :earth -> 9.8 
+            :moon -> 1.6 
+            :mars -> 3.71
+        end
+        
+        velocity = sqrt(2 * gravity * distance)
+
+        cond do
+            velocity == 0 -> :stable
+            velocity < 5 -> :slow
+            velocity >= 5 and velocity < 10 -> :moving
+            velocity >= 10 and velocity < 20 -> :fast
+            velocity >= 20 -> :speedy
+        end
+    end
+    
+    def fall_velocity_if(planemo, distance) when distance >= 0 do
+        gravity = case planemo do
+            :earth -> 9.8
+            :moon -> 1.6
+            :mars -> 3.71
+        end
+
+        velocity = sqrt(2 * gravity * distance)
+
+        if velocity > 20 do
+            IO.puts("Look out below!")
+        else
+            IO.puts("Reasonable...")
+        end
+
+        velocity
+    end
+    
     @doc """
     Usando una tupla para definir cual implementación privada se invoca
     """
