@@ -34,12 +34,12 @@
 + **Cadena multilínea:** Se inicia y finaliza con """ 
 + **Characters list:** Propio de erlang, el valor va en comilla simple 'valor' y se concatena con ++. 'el' ++ 'ixir' = 'elixir'. List.to_string y String.to_char_list se pueden usar para convertir entre cadenas y listas de caracteres.
 + **String Sigils:** Establece el tipo de caracteres que contendran una cadena. Inicia con ~ más el caracter:
- + *s:* Binary String
- + *c:* Lista de caracteres
- + *r:* Expresión regular
- + *w:* Lista dividida en palabras por espacios en blanco
+    + *s:* Binary String
+    + *c:* Lista de caracteres
+    + *r:* Expresión regular
+    + *w:* Lista dividida en palabras por espacios en blanco
 + **Solicitar información al usuario:** 
- + *IO.getn:* Permite obtener algunos caracteres, ver ejemplo en archivo ask.ex
- + *IO.gets:* Permite recibir una linea completa de texto, ver ejemplo en archivo ask.ex
+    + *IO.getn:* Permite obtener algunos caracteres, ver ejemplo en archivo ask.ex
+    + *IO.gets:* Permite recibir una linea completa de texto, ver ejemplo en archivo ask.ex
 
  
