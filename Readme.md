@@ -44,12 +44,50 @@
 
 ## Capítulo 6: Lists
 + **List basics**
-    + *Generalidades:*Ordenada y recorrida en orden generalmente (del primero al último)
-    + *No tipadas:*Pueden contener cualquier tipo de dato, pero se recomienda trabajar con un único tipo
+    + *Generalidades:* Ordenada y recorrida en orden generalmente (del primero al último)
+    + *No tipadas:* Pueden contener cualquier tipo de dato, pero se recomienda trabajar con un único tipo
     + *Pattern:* [1,x,4,y] = [1,2,4,8] Se tiene que x=2; y=8
     + *Lista en otra:* insert = [2,4,8]; full = [1,insert,16,32] ocasiona full = [1,[2,4,8],16,32]. 
     + *List.flatten:* Para aplanar la lista anterior en una sóla lista con List.flatten(full); se obtiene full = [1,2,4,8,16,32]
     + *Lista de listas:* a = [1,2,4]; b = [8,16,32]; list_of_lists = [a,b]  (esto es [[1,2,4],[8,16,32]]).
     + *Enum.concat:* Combinar dos listas con Enum.concat(a,b) o con '++' => a ++ b
     + *Heads and Tails:* [head | tail] = [1,2,4] guarda la primera posición en la variable definida para el head y el resto en la variable definida para el tail.
+    + *Enum.reverse:* Invierte la lista
+    + *List.zip:* Une dos listas del mismo tamaño como una tupla
+    + *List.unzip:* Separa una tupla en dos listas
+
+## Capítulo 7: Name-Value Pairs
++ **Keyword lists:**
+    + *Definicion:* Lista de pares Key-Value, donde el Key es un atom. La llave se puede repetir
+    + *Ejemplo:* planemo_list = [{:earth, 9.8}, {:moon, 1.6}, {:mars, 3.71}]
+    + *Keyword.get(list, :key):* Devuelve el primer valor con esa llave
+    + *Keyword.get(list, :key, optional):* Si no encuentra la llave, devuelve el valor optional por defecto
+    + *Keyword.fetch!(list, :key):* Devuelve un error si no encuentra la llave
+    + *Keyword.get_values(list, :key):* Devuelve todos los valores con esa llave
+    + *Keyword.has_key?(list, :key):* Devuelve true o false si existo o no la llave en la lista.
+    + *Keyword.put_new(list, :key, value):* Agrega un nuevo campo. Si la llave ya existe no la modifica
+    + *Keyword.put(list, :key, value):* Agrega un nuevo campo si no existe, si ya existe modifica todas las llaves por el valor nuevo (solo deja uno sin repetir).
++ **List of Tuples with Multiple Keys:**
+    + *Definición:* Se puede tener una lista en la que se tengan varias llaves.
+    + *Ejemplo:* atomic_info = [{:hydrogen, :H, 1008}, {:carbon, :C, 12.011}]
+    + *List.keyfind(list, :key, key_position):* Se debe pasar la posición en la que se espera que este la llave. Si no está, devuelve nil
+    + *List.keyfind(list, :key, key_position, default_value):* Igual que el anterior, pero devuelve el default_value si no se encuentra.
+    + *List.keymember?(list, :key, key_position):* True o False si la llave se encuentra en esa posición
+    + *List.keystore(list, :key, key_position, tuple):* Se inserta la tupla en la lista, siempre en una nueva lista apartir de la original.
+    + *List.keyreplace(list, :key, key_position, tuple):* Reemplaza por la nueva tupla.
+    + *List.keydelete(list, :key, key_position):* Elimina si la encuentra.
++ **Hash Dictionaries:**
+    + *Definición:* Las llaves son únicas. Array asociativo.
+    + *Creación:* planemo_hash = Enum.into([earth: 9.8, moon: 1.6, mars: 3.71],
+HashDict.new())
+    + *HashDict.function():* Usa las mismas funciones que el Keyword
+
++ **From lists to maps:**
+    + *Creación:%{}* new_map = %{key=>value} Las llaves pueden ser atoms o cualquier cosa.
+    + *Actualización:* altered_map = %{previous_map | key: value} o altered_map = %{previous_map | key => value, (key=>value...)}
+    + *Leyendo:* %{earth: earth_gravity} = planemo_map. earth_gravity va a contener el valor de la llave earth.
+
++ **From maps to structs:**
+    + *Definición:* Struct define una estructura para usar en la creación, se basa en maps.
+    + *Protocols:* Similar a Interface en otros lenguajes, es implementado para las estructuras
     
