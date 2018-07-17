@@ -90,4 +90,22 @@ HashDict.new())
 + **From maps to structs:**
     + *Definición:* Struct define una estructura para usar en la creación, se basa en maps.
     + *Protocols:* Similar a Interface en otros lenguajes, es implementado para las estructuras
-    
+
+## Capítulo 8 - High-Order Functions and List Comprehensions
++ Funciones que reciben otras funciones como parámetros
++ **Funciones de Alto orden con listas**
+    + *Enum.each:* Recibe una lista y la función, lo que realiza es que ejecuta dicha función para cada elemento de la lista. Retorna el atom :ok al finalizar
+    + *Enum.map:* Recibe una lista y la función, lo que realiza es que aplica la función para todos los elementos pero devuelve una nueva lista con los resultados.
+    + *ForEach -> NewList:* Realizar la misma tarea del Enum.map con un foreach. for value <- list, do: value * value (For each value in list list , create an entry value * value in a new list) 
+    + *Enum.filter:* Recibe la lista y la función. Devuelve los elementos de la lista para los que la función devuelve true.
++ **Testing lists**
+    + *Enum.all?:* Recibe la lista y la función y valida si todos los elementos de la lista cumplen la función.
+    + *Enum.any?:* Recibe la lista y la función y valida si al menos uno de los elementos de la lista cumple la función.
++ **Splitting lists**
+    + *Enum.partition:* Realiza algo parecido a filter pero devuelve dos listas separadas con los que cumplen y no cumplen la función.
+    + *Enum.take_while:* Devuelve la lista de los elementos que cumplen la condición hasta que encuentra uno que no cumple.
+    + *Enum.drop_while:* Contrario a la anterior, devuelve la lista a partir del que no cumple.
++ **Folding**
+    + Se define una función con un acumulador que irá cambiando a medida que se recorre la lista.
+    + *list.foldl:* Recorre de head to tail.
+    + *list.foldr:* Recorre de tail to head.
