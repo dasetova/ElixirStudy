@@ -109,3 +109,14 @@ HashDict.new())
     + Se define una función con un acumulador que irá cambiando a medida que se recorre la lista.
     + *list.foldl:* Recorre de head to tail.
     + *list.foldr:* Recorre de tail to head.
+
+**Capítulo 9 - Playing with Processes**
++ *send(pid, message):* Función que recibe el process_id y el mensaje a enviar.
++ *self():* Devuelve el proceso de la consola de elixir
++ *flush()*: "Lee" los mensajes pendientes del proceso de la shell.
++ *receive do:* Lee el mensaje pero permite hacer algo con el antes de descartarlo.
+    receive do
+        x -> x *2
+    end
++ *spawn(module, :function, parameters[]):* Devuelve el pid de una función para enviarle un mensaje. Si se quiere seguir usando es necesario usar una llamada recursiva sobre la función que tiene el receive .. do (ver archivo bounce.ex)
++ Registering a Process (102)
