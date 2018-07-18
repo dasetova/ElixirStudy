@@ -98,4 +98,13 @@ defmodule Drop do
     defp fall_velocity(:mars, distance) when distance >= 0 do
         sqrt(2*3.71*distance)
     end
+
+    def drop do
+        receive do
+            {from, planemo, distance} ->
+             send(from, {planemo, distance, fall_velocity(planemo, distance)})
+            drop()
+        end
+        
+    end
 end

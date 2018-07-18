@@ -119,4 +119,9 @@ HashDict.new())
         x -> x *2
     end
 + *spawn(module, :function, parameters[]):* Devuelve el pid de una función para enviarle un mensaje. Si se quiere seguir usando es necesario usar una llamada recursiva sobre la función que tiene el receive .. do (ver archivo bounce.ex)
-+ Registering a Process (102)
++ **Registering a Process**
+    + *Process.register(pid, :atom):* Permite registar un proceso para luego ser usado a través del atom.
+        send(:atom, :message)
+    + *Process.whereis(:atom):* Devuelve el pid del proceso registrado con ese atom. Si no existe ninguno devuelve nil.
+    + *Process.unregister(:atom):* Devuelve true si existe, retira el registro creado para ese atom.
+    + *Process.registered():* Devuelve todos los registrados.
