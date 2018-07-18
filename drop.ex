@@ -50,14 +50,22 @@ defmodule Drop do
         end
     end
     
-    def fall_velocity_if(planemo, distance) when distance >= 0 do
-        gravity = case planemo do
-            :earth -> 9.8
-            :moon -> 1.6
-            :mars -> 3.71
+    def fall_velocity_if(planemo, distance) do
+        velocity = 0
+        try do
+            gravity = case planemo do
+                :earth -> 9.8
+                :moon -> 1.6
+                :mars -> 3.71
+            end
+        #Cambio de guard a try..rescue
+        
+            velocity = sqrt(2 * gravity * distance)
+        rescue
+            ArithmeticError -> {:error, "Distance must be non-negative"} #Como un catch
+            CaseClauseError -> {:error, "Unknown planemo #{planemo}"}  #Plus.. Otro catch
         end
-
-        velocity = sqrt(2 * gravity * distance)
+        
 
         if velocity > 20 do
             IO.puts("Look out below!")

@@ -125,3 +125,12 @@ HashDict.new())
     + *Process.whereis(:atom):* Devuelve el pid del proceso registrado con ese atom. Si no existe ninguno devuelve nil.
     + *Process.unregister(:atom):* Devuelve true si existe, retira el registro creado para ese atom.
     + *Process.registered():* Devuelve todos los registrados.
+**Capítulo 10 - Exceptions, errors and debugging**
++ *try..rescue:* Bloque similar al try catch en otros lenguajes de progrmaación, también permite diferenciar la acción a realizar por tipos de excepción.
++ *Logging:* Usa diferentes niveles de log, :info, :debug, :warn, :error
++ *:dbg.tracer():* Función Erlang que activa el debug
++ *:dbg.p(pid, :m):* Establece que el debug para monitorear los mensajes (identificados por :m) de este proceso.
++ *ExUnit:* Modulo de testing de elixir.
+    + *assert:* Evalúa que sea correcto
+    + *refute:* Evalúa que la condición sea falsa
+    + *assert_raise:* Evalúa que se genera una excepción
