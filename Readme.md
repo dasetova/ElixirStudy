@@ -110,7 +110,7 @@ HashDict.new())
     + *list.foldl:* Recorre de head to tail.
     + *list.foldr:* Recorre de tail to head.
 
-**Capítulo 9 - Playing with Processes**
+## Capítulo 9 - Playing with Processes
 + *send(pid, message):* Función que recibe el process_id y el mensaje a enviar.
 + *self():* Devuelve el proceso de la consola de elixir
 + *flush()*: "Lee" los mensajes pendientes del proceso de la shell.
@@ -125,7 +125,7 @@ HashDict.new())
     + *Process.whereis(:atom):* Devuelve el pid del proceso registrado con ese atom. Si no existe ninguno devuelve nil.
     + *Process.unregister(:atom):* Devuelve true si existe, retira el registro creado para ese atom.
     + *Process.registered():* Devuelve todos los registrados.
-**Capítulo 10 - Exceptions, errors and debugging**
+## Capítulo 10 - Exceptions, errors and debugging
 + *try..rescue:* Bloque similar al try catch en otros lenguajes de progrmaación, también permite diferenciar la acción a realizar por tipos de excepción.
 + *Logging:* Usa diferentes niveles de log, :info, :debug, :warn, :error
 + *:dbg.tracer():* Función Erlang que activa el debug
@@ -134,3 +134,33 @@ HashDict.new())
     + *assert:* Evalúa que sea correcto
     + *refute:* Evalúa que la condición sea falsa
     + *assert_raise:* Evalúa que se genera una excepción
+
+## Capítulo 11 - Storing Structured Data
++ **Records**
+    + Propios de Erlang
+    + *defrecord:* Define un record.
+        Ej: defrecord Planemo, name: :nil, gravity: 0, diameter: 0, distance_from_sun: 0
+    + *require:* Se debe usar antes de poder crear algún registro
+
++ **Erlang Term Storage**
+    + Almacenamiento en memoria
+    + Cada colección se comporta como una tabla de base de datos. Según el tratamiento que se tenga de la llave (similar a la pk de una tabla) se entienden como:
+        + *Sets:* Sólo puede contener un único record con la llave. Default.
+        + *Ordered sets:* Igual que sets pero en orden según la llave.
+        + *Bags:* Puede tener varios registros con la misma llave, pero si varios registros son completamente iguales son unidos en uno sólo.
+        + *Duplicate bags:* Igual que bags pero no une registros idénticos.
+        + *ets.new:* Crea una nueva tabla.
+            planemo_table = :ets.new(:planemos, [:named_table, {:keypos, Planemo.planemo(:name) + 1}])
+        + *ets.insert:* Inserta un registro en la tabla. :ets.insert :table, record
+            :ets.insert :planemos, Planemo.planemo(name: :mercury, gravity: 3.7, diameter: 4878, distance_from_sun: 57.9)
+        + *ets.delete(:table):* Eliminar la tabla según el nombre
+            :ets.delete(:planemos)
+        + *ets.tab2list:* Lista el contenido de la tabla
+            :ets.tab2list :planemos
+        + *ets.lookup:* Reciibe la tabla y la llave para mostrar el registro
+            :ets.lookup(:planemos, :eris)
+        + *hd():* devuelve el primero de los registros de una tabla
+            hd(:ets.lookup(:planemos, :eris))
+        + *DETS:* ETS pero se guarda en el disco y no en memoria.
++ **Storing Records in Mnesia**
+    +*Mnesia:* DBMS de Erlang.
