@@ -44,3 +44,30 @@ Para agregar funcionalidad a la aplicación recien creada, es necesario realizar
 * Adicionar un controller (o una acción en uno ya existente).
 * Una vista en web/views
 * Una plantilla en web/templates: Código HTML embebido en un archivo exs
+
+### Going Deeper: The Request Pipeline
+**Plug Library**: Cada plug consume y produce una estructura de data común llamada Plug.Conn (contiene todo el *universo* de un request). Cada plug se puede entender como una función individual que recibe el conn, le realiza algún cambio y devuelve el conn modificado.
+El pipeline de Phoenix son varios Plug por el cuál el conn pasa y es modificado en cada capa.
+
+### Phoenix File Structure:
+Principales directorios:
+* **assets:** Donde se almacenan los archivos CSS, JS, Imagenes.
+* **config:** Archivos de configuración:
+    * config: Archivo principal donde se define cuál es el repositorio, cuál es el endpoint y logs.
+    * dev, prod, test: Archivos de los ambientes, se pueden adicionar más. Con la variable MIX_ENV se escoge cuál ambiente, por defecto es DEV.
+* **lib:** Árbol de supervisión y procesos.
+    * project
+    * project_web: endpoint.ex es el archivo que contiene la configuración del endpoint.
+* **priv:** Archivos usados por la aplicación, como por ejemplo, las migraciones a base de datos.
+* **test:** Archivos de pruebas
+* **web:** Archivos relacionados a la parte web (vistas, plantillas, controladores).
+Phoenix mantiene la misma estructura básica de un proyecto mix.
+
+### Archivos:
+* **ex:** Archivos que son compilados en archivos *beam* y ejecutados en Erlang.
+* **exs:** Scripts de elixir, compilados en memoria cada vez que se ejecutan
+* **mix.exs:** Archivo que contiene la información del proyecto
+* **mix.lock:** Versión específica de las dependencias.
+* **lib/project_name.ex:** Archivo principal del proyecto.
+
+# Chapter 3: Controllers, Views, and Templates
