@@ -3,7 +3,7 @@
     <!--Se recibe una coleccion en el parametro @users-->
     <%= for user <- @users do %>
         <tr>
-            <td><%= render "user.html", user: @user %></td>
+            <td><%= render "user.html", user: user %></td>
             <td><%= link "View", to: user_path(@conn, :show, user.id) %></td>
         </tr>
     <% end %>

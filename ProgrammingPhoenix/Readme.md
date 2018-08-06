@@ -102,3 +102,24 @@ Se puede centralizar el código repetido de varias plantillas en una sola que es
 
 ### Layouts
 Cuando se llama render desde un controller en realidad primero se construye el layout y se envía a este la vista, la plantilla y los parámetros (lo que es el  return de la acción del controlador) estos son renderizados en el layout en la línea <%= render @view_module, @view_template, assigns %>
+
+## Chapter 4: Ecto and Changesets
+* Ecto permite leer y persistir data en una base de datos relacional como PostgreSQL.
+* Contiene un lenguaje de consulta que permite hacer querys elaboradas.
+* El Changeset permite almacenar los cambios a realizar en la base de datos, encapsulando el proceso de recibir data externa (como de un formulario web), realizar la conversión a los campos de la base de datos (casting) y validar esa data antes de hacer los cambios. Se puede definir una o varias funciones changeset en un schema, según los requerimientos.
+* DATABASE_URL es la variable de ambiente
+* *Schema* es el nombre dado a las entidades o modelos. En un schema se definen las propiedades que son los campos en la tabla al igual que el struct de elixir. Cuando una propiedad es *virtual* significa que realmente no existe en la base de datos.
+* *Migrations* son utilizadas para modificar la base de datos desde Phoenix. A continuación, los comandos necesarios para crear una migración y hacerla efectiva en la base de datos:
+    * mix ecto.gen.migration create_user: Esto crea un archivo con un cambio en la base de datos, dentro de esa función *change* se puede definir las acciones DDL a realizar sobre la base de datos.
+    * mix ecto.migrate: Hace efectivos los cambios definidos en la función *change* de las migraciones pendientes.
+* Usando *resources* en el *router* permite unificar varias acciones comunes en HTTP. Por lo que tener  es lo mismo que definir todas estas rutas:
+    * get "/users", UserController, :index
+    * get "/users/:id/edit", UserController, :edit
+    * get "/users/new", UserController, :new
+    * get "/users/:id", UserController, :show
+    * post "/users", UserController, :create
+    * patch "/users/:id", UserController, :update
+    * put "/users/:id", UserController, :update
+    * delete "/users/:id", UserController, :delete
+* mix phoenix.routes permite ver todas las rutas configuradas en el archivo router
+* La acción *new* permite renderizar un formulario que será utilizado para la creación de un nuevo registro en la base de datos. De esta manera, la acción del formulario que se muestra con nueva será invocar la acción *create* del controller correspondiente. Igual manera funciona con las acciones *edit* y *update*.
