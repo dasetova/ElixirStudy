@@ -1,0 +1,4 @@
+<div class="jumbotron">
+<!-- <@=Esto lleva codigo para renderizar%>-->
+  <h2>Hello World, from <%= @messenger %>!</h2>
+</div>
