@@ -7,6 +7,7 @@ defmodule RumblWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Rumbl.Auth, repo: Rumbl.Repo #Aqui se envia el repository a las opts del init
   end
 
   pipeline :api do

@@ -15,9 +15,25 @@ defmodule Rumbl.Models.User do
     La función changeset es necesaria para validar la data y realizar cambios
     con este schema
     """
-    def changeset(%User{} = user, params \\ :empty) do
-        user
-        |> cast(params, [:name,:username]) #Es necesario el import Ecto.Changeset
+    def changeset(model, params) do
+        model
+        |> cast(params, ~w(name username), []) #Es necesario el import Ecto.Changeset
         |> validate_length(:username, min: 1, max: 20)
+    end
+
+    def registration_changeset(model, params) do
+        model
+        |> changeset(params)
+        |> cast(params, ~w(password), []) #Valida que traiga la contraseña
+        |> validate_length(:password, min: 6, max: 100)
+        |> put_pass_hash()
+    end
+
+    defp put_pass_hash(changeset) do
+        case changeset do
+            %Ecto.Changeset{valid?: true, changes: %{password: pass}} -> #valida que el changeset sea valido
+                put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass)) #Si es valido, entonces se realiza la insercion de la contraseña 
+            _ -> changeset
+        end
     end
 end

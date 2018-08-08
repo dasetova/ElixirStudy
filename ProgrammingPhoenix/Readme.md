@@ -123,3 +123,41 @@ Cuando se llama render desde un controller en realidad primero se construye el l
     * delete "/users/:id", UserController, :delete
 * mix phoenix.routes permite ver todas las rutas configuradas en el archivo router
 * La acción *new* permite renderizar un formulario que será utilizado para la creación de un nuevo registro en la base de datos. De esta manera, la acción del formulario que se muestra con nueva será invocar la acción *create* del controller correspondiente. Igual manera funciona con las acciones *edit* y *update*.
+
+## Chapter 5 - Authenticating Users
+* Comeonin es una dependencia que se utiliza para hash de contraseñas.
+* Creación de un nuevo changeset que permita la encriptacion de la contraseña.
+* Una buena opción es tener un changeset genérico que puede ser usado por otro más específicos.
+
+### The anatomy of a Plug
+Los plugs pueden ser de dos maneras:
+* Module Plugs: para usarlo *plug Plug.Logger*. Debe tener dos funciones:
+    * init: Recibe opciones
+    * call: Recibe el *conn* y las *options* del init
+* Function Plugs para usarlo *plug :function* el nombre de la función como un átomo.
+
+### Request format
+El request que se encuentra en el conn contiene la siguiente información:
+* *host:* El host de destino de la petición
+* *method:* Método HTTP.
+* *path_info:* La ruta en una lista. Ej: ["admin","users"].
+* *req_headers:* Request headers. Ej: [{"content-type", "text/plain"}]
+* *scheme:* El protocolo como un átomo. Ej: :https
+Los siguientes campos son vacíos por defecto, a menos que uno los requiera:
+* *cookies:* Request cookies + Response cookies
+* *params:* Request parámetros
+
+* *assigns:* Mapa definido por el usuario donde puede ingresar la información que desee.
+* *halted:* Bandera usada para detener la aplicación, por ejemplo cuando una autenticación es fallida.
+* *state:* Estado de la conexión. Ej: :set, :send, etc.
+* *resp_body:* Vacío inicialmente, luego contiene el response como un string.
+* *resp_cookies:* Cookies del response.
+* *resp_headers:* Headers siguiente la especificación HTTP.
+* *status:* Código HTTP de la respuesta. Ej: 200-299 exitoso, 300-399 redireccion, 400-499 no encontrado, 500+ para errores.
+* *adapter:* Adaptador
+* *private:* Mapa para uso de los frameworks
+
+### Writing an Authentication Plug
+* Se crea un plug de función. En este caso lo creamos en la carpeta controllers.
+* Se agrega en el router el plug dentro del pipeline y se envía el repositorio que es esperado en las opts del init del plugin. Posteriormente puede ser usado en los controllers que estén dentro de este pipeline.
+* Para realizar la autenticación en el controller se realiza un Plug como función para facilitar la invocación en las acciones del controlador.
