@@ -161,3 +161,8 @@ Los siguientes campos son vacíos por defecto, a menos que uno los requiera:
 * Se crea un plug de función. En este caso lo creamos en la carpeta controllers.
 * Se agrega en el router el plug dentro del pipeline y se envía el repositorio que es esperado en las opts del init del plugin. Posteriormente puede ser usado en los controllers que estén dentro de este pipeline.
 * Para realizar la autenticación en el controller se realiza un Plug como función para facilitar la invocación en las acciones del controlador.
+* La funcion de login se crea en el Plug, pero como es una función adicional se llama de la misma manera que una función de cualquier módulo.
+
+### Implementing Login and Logout
+* Nuevas rutas
+* Nuevo controller de session

@@ -36,6 +36,7 @@ defmodule RumblWeb.UserController do
         case Repo.insert(changeset) do
             {:ok, user} -> #si es exitoso se recibe este mapa
                 conn
+                |> Rumbl.Auth.login(user)
                 |> put_flash(:info, "#{user.name} created!")
                 |> redirect(to: user_path(conn, :index))
             {:error, changeset} -> #si existe algun error el atom seria :error

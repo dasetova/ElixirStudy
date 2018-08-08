@@ -15,8 +15,17 @@
     <div class="container">
       <header class="header">
         <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+          <ol class="nav nav-pills pull-right">
+            <%= if @current_user do %><!--Si hay un usuario logueado-->
+              <li><%= @current_user.username %></li>
+              <li>
+                <%= link "Log out", to: session_path(@conn, :delete, @current_user),
+                method: "delete" %>
+              </li>
+            <% else %><!--Si no hay usuario logueado-->
+              <li><%= link "Register", to: user_path(@conn, :new) %></li>
+              <li><%= link "Log in", to: session_path(@conn, :new) %></li>
+            <% end %>
           </ul>
         </nav>
         <span class="logo"></span>
