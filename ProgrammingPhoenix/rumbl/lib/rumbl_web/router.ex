@@ -22,6 +22,11 @@ defmodule RumblWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/manage", RumblWeb do
+    pipe_through [:browser, :authenticate_user] #Esto hace que se evalue el usuario siempre con el plug de authentica_user antes de cualquier accion
+    resources "/videos", VideoController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", RumblWeb do
   #   pipe_through :api

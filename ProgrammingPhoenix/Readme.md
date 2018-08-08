@@ -166,3 +166,30 @@ Los siguientes campos son vacíos por defecto, a menos que uno los requiera:
 ### Implementing Login and Logout
 * Nuevas rutas
 * Nuevo controller de session
+* Creación de vista y plantillas para session
+* Se agregan nuevas funciones en el plug de auth para login_by_username_and_pass y logout
+* Se agrega en la barra de navegación enlaces para Registrar/Login y Logout.
+
+## Chapter 6: Generators and Relationships
+La aplicación creada tendrá en total 3 tablas, las cuáles se relacionarán de la siguiente manera:
+* Usuarios (User) pueden crear videos (Video), comentar (Annotation) en ellos.
+* El proceso de Videos y Annotations será realizado a través de generadores para agilizar el desarrollo.
+### Generating Resources
+* *mix phx.gen.html:* Crea plantillas HTML sencillas.
+    * mix phx.gen.html Models Video videos user_id:references:users url:string title:string description:text
+        * El primer parámetro es el contexto, el cuál es como un Service que consume el Repo y sirve de intermediario con el Controller.
+        * El segundo es el nombre del módulo
+        * El tercero es el nombre del esquema
+        * Siguientes campos son las columnas del esquema.
+* *mix phx.gen.json:* Realiza lo mismo pero con JSON para RestAPIs.
+* Diferencias entre el libro y lo realizado: La versión anterior de Phoenix no requería un contexto mientras que la nueva si, separando las acciones de llamado del repositorio del controlador hacia otra capa.
+
+### Generated Migrations
+El comando anterior crea una migración que finalmente se puede ejecutar con mix ecto.migrate. En caso de ocurrir un error (ej: olvidar un campo) se puede realizar mix ecto.rollback para deshacer el cambio.
+
+### Building Relationships
+* Ecto.build_assoc: Crear una asociación con un struct definido
+* Repo.preload: Carga las relaciones
+* Ecto.assoc: Retorna un Ecto.Query
+* *def action(conn, _) do* esta función permite definir algo común para todas las acciones de un controlador. Básicamente es un plug interior del controller.
+* Se implementa el capítulo 6 del libro manteniendo la clase independiente tipo Service que se crea con la versión 1.3 de Phoenix.

@@ -8,6 +8,8 @@ defmodule Rumbl.Models.User do
         field :username, :string
         field :password, :string, virtual: true
         field :password_hash, :string
+        has_many :videos, Rumbl.Models.Video
+
         timestamps() #Campos de inserted_at y updated_at
     end
 

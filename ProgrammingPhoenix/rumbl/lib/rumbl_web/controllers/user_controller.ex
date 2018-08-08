@@ -6,7 +6,7 @@ defmodule RumblWeb.UserController do
     # Involucra el plug dentro de las acciones index y show
     # Esto hace que primero se invoque el plug y si todo funciona 
     # Correctamente si realizan las acciones
-    plug :authenticate when action in [:index, :show]
+    plug :authenticate_user when action in [:index, :show]
 
     def index(conn, _params) do
         #Esta sería la implementación si no se usa la funcion authenticate como un plug sino como una funcion normal
@@ -45,14 +45,5 @@ defmodule RumblWeb.UserController do
     end
 
 
-    defp authenticate(conn, _opts) do #La variable opcional opts convierte esta en un función Plug
-        if conn.assigns.current_user do #Si ya fue atenticado todo bien.
-            conn
-        else #Sino
-            conn
-            |> put_flash(:error, "You must be logged in to access that page") #Se muestra el mensaje
-            |> redirect(to: page_path(conn, :index)) #Se redirecciona al index donde no es zona con usuarios loggeados
-            |> halt() #Esto hace que ya no se continúe son los siguientes plugs sino que se finaliza las transformaciones del conn
-        end
-    end
+    
 end

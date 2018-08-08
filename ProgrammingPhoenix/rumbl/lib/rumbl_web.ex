@@ -23,6 +23,7 @@ defmodule RumblWeb do
       import Plug.Conn
       import RumblWeb.Router.Helpers
       import RumblWeb.Gettext
+      import Rumbl.Auth, only: [authenticate_user: 2] #Importa en todos los controladores el Plug con la función de autenticación
     end
   end
 
@@ -48,6 +49,7 @@ defmodule RumblWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Rumbl.Auth, only: [authenticate_user: 2] #Permite usar esa acción en el router
     end
   end
 
