@@ -70,4 +70,35 @@ Phoenix mantiene la misma estructura básica de un proyecto mix.
 * **mix.lock:** Versión específica de las dependencias.
 * **lib/project_name.ex:** Archivo principal del proyecto.
 
-# Chapter 3: Controllers, Views, and Templates
+## Chapter 3: Controllers, Views, and Templates
+### Controllers
+Acciones comunes:
+* :show
+* :index
+* :new
+* :create
+* :edit
+* :update
+* :delete
+
+### Views
+Las vistas permiten definir funciones que permiten a la plantilla mostrar la información como la requiere el usuario. Se puede dejar vacía si no es necesario modificar la información como viene en el modelo o se pueden crear funciones que permitan modificar el modelo y mostrar la información como se quiere (ver la función first_name en la user_view).
+
+### Templates
+* Se debe crear una carpeta por cada vista y una template por cada acción.
+* Con <%= %> es posible utilizar la información de los parámetros devueltos por la vista, incluso usando las funciones de esta.
+* Si se utiliza <% %> Es para ejecutar código sin necesidad de imprimir el resultado en la plantilla.
+* for user <- @users do es básicamente un foreach
+* link es la manera de crear un elemento <a href> desde código.
+* Se pueden utilizar los helpers para hacer el llamado de la URL de una acción sin necesidad de conocer la URL exacta user_path(@conn, :show, user.id) llama la acción *show* del UserController.
+
+### Naming Conventions
+Tanto controller como view deben tener el Modulo + Tipo que lo identifica:
+UserController <--> UserView
+De esta manera se enlaza la vista al controlador. Los templates son enlazados de manera Modulo/Accion de manera que para mostrar el resultado de la acción index del UserController utilizará la plantilla ubicada en templates/user/index.html.eex
+
+### Nesting Template
+Se puede centralizar el código repetido de varias plantillas en una sola que es llamada por todas las que lo necesiten. De esta manera, los cambios solo serán necesarios en una única plantilla y actualizados en todas (ver plantilla user.html.eex).
+
+### Layouts
+Cuando se llama render desde un controller en realidad primero se construye el layout y se envía a este la vista, la plantilla y los parámetros (lo que es el  return de la acción del controlador) estos son renderizados en el layout en la línea <%= render @view_module, @view_template, assigns %>
