@@ -2,8 +2,8 @@ defmodule RumblWeb.VideoController do
   use RumblWeb, :controller
 
   alias Rumbl.Models
-  #alias Rumbl.Models.Video
-
+  #Se agrega un plug para agregar categories en las acciones definidas
+  plug :load_categories when action in [:new, :create, :edit, :update]
 
   def action(conn, _) do
     apply(__MODULE__, action_name(conn),
@@ -62,5 +62,10 @@ defmodule RumblWeb.VideoController do
     conn
     |> put_flash(:info, "Video deleted successfully.")
     |> redirect(to: video_path(conn, :index))
+  end
+
+  defp load_categories(conn, _) do
+    categories = Models.load_categories()
+    assign(conn, :categories, categories)
   end
 end

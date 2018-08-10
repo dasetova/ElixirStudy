@@ -193,3 +193,114 @@ El comando anterior crea una migración que finalmente se puede ejecutar con mix
 * Ecto.assoc: Retorna un Ecto.Query
 * *def action(conn, _) do* esta función permite definir algo común para todas las acciones de un controlador. Básicamente es un plug interior del controller.
 * Se implementa el capítulo 6 del libro manteniendo la clase independiente tipo Service que se crea con la versión 1.3 de Phoenix.
+
+## Chapter 7: Ecto Queries and Constraints
+En este capítulo se agregará funcionalidad a la aplicación permitiendo dividir lo videos por categorías.
+
+### Adding Categories
+* *mix phx.gen.schema Category categories name:string* Permite crear un schema sin agregar lo referente con Web (Controller, View, Templates)
+* *mix ecto.gen.migration add_category_id_to_video* Crea una migración vacía para agregar manualmente los cambios a hacer en base de datos.
+* *mix run priv/repo/seeds.exs* El archivo seeds tiene inserts iniciales para la base de datos. Al ser un archivo exs se puede ejecutar como un script de elixir con *mix run*.
+
+### Associating Videos and Categories
+Puntos claves en consultas. Teniendo:
+    *Repo.all from c in Category,*
+    *order_by: c.name*
+    *select: {c.name, c.id}*
+Explicación:
+* *Repo.all* trae todas las filas
+* *from* macro que contruye la consulta
+* *c in Category* evalúa cada campo
+* *order_by: c.name* permite adicionar la clausula order by como en un SQL
+* *select: {c.name, c.id}* Campos a obtener
+Más consultas:
+    *Repo.one(from u in User, where: u.username == ^username)*
+* *Repo.one* Espera un solo resultado, si se generan más ocasionaría un error.
+* *where: u.username == ^username* es un where tal cual en SQL, el ^ significa que eso es un valor pasado en una variable. Esto permite realizar protección de SQL Injection.
+**Operadores que tiene Ecto**
+* Comparison operators: == , != , <= , >= , < , >
+* Boolean operators: and , or , not
+* Inclusion operator: in
+* Search functions: like and ilike
+* Null check functions: is_nil
+* Aggregates: count , avg , sum , min , max
+* Date/time intervals: datetime_add , date_add
+* General: fragment , field , and type
+
+**Queries with Elixir's Pipe**
+También se puede hacer un query con pipes:
+    User |>
+    select([u], count(u.id)) |>
+    where([u], ilike(u.username, ^"j%") or ilike(u.username, ^"c%")) |>
+    Repo.one()
+Donde cada uno es enlazado al siguiente con la lista [u]. En esto caso, ahí será incrustado el parámetro anterior. Básicamente es hacer la consulta a la inversa que normalmente se realizaría (y en el mismo orden que en una SQL Query).
+
+### Fragments
+En Ecto es posible utilizar fragmentos para hacer consultas que no tienen homologación con Ecto. Es decir, ese fragmento de la consulta se escribe directamente en SQL.
+    from(u in User,
+    where: fragment("lower(username) = ?",
+    ^String.downcase(uname)))
+En este caso, se está realizando la conversión a minúscula para no tener en cuenta CaseSensitive con una función propia de SQL. Igualmente, se realiza el paso de parámetros de manera segura para evitar SQL Injection.
+También el posible ejecutar una consulta SQL completamente:
+*Ecto.Adapters.SQL.query(Rumbl.Repo, "SELECT power($1, $2)", [2, 10])*
+
+### Querying Relationships
+* Precargando las relaciones de una vez: *Repo.one from(u in User, limit: 1, preload: [:videos])*
+* Usando las asociaciones para filtros de where. Se puede hacer con un join:
+    Repo.all from u in User,
+    join: v in assoc(u, :videos),
+    join: c in assoc(v, :category),
+    where: c.name == "Comedy",
+    select: {u, v}
+
+### Constraints
+Terminología importante:
+* *constraint* Igual que los de base de datos: Unique, Index, Primary o Foreign Keys.
+* *constraint error* Error al violar algún constraint como al intentar insertar dos registros con un mismo valor en un campo Unique.
+* *changeset constraint* Constrain agregado a un changeset para poder manejar errores
+* *changeset error messages* Error de constrain modificado en el changeset que permite ser más entendible para mostrar en la vista.
+
+* **Validating Unique Data**
+*create unique_index(:users, [:username])* permite realizar el unique en la base de datos. Para utilizar el error generado por este constraint se debe adicionar en el changeset la validación.
+	def changeset(model, params \\ :empty) do
+		model
+		|> cast(params, ~w(name username), [])
+		|> validate_length(:username, min: 1, max: 20)
+		|> unique_constraint(:username)
+	end
+
+* **Validating Foreign Keys**
+Igualmente, agregar en el changeset el assoc_contraint permite validar las llaves foráneas
+	def changeset(model, params \\ :empty) do
+		model
+		|> cast(params, @required_fields, @optional_fields)
+		|> assoc_constraint(:category)
+	end
+* **On Delete**
+Capturar errores al intentar eliminar un registro. Por ejemplo, al intentar borrar un registro que es llave foránea en otras tablas.
+	* Se puede controlar primero con el foreign_key_constraint en el changeset el cuál es similar al assoc_contraint
+		|> foreign_key_constraint(:post_id) #Esto evaluará los errores de llaves foráneas, como al insertar, actualizar o eliminar.
+	* Usar :delete o _nilify en los contrainst para borrar los hijos asociados o volverlos nulo.
+* **Let it crash**
+Using changeset constraints only makes sense if the error message can be something the user can take action on.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

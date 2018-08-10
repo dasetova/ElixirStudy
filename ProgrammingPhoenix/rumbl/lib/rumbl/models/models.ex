@@ -7,6 +7,7 @@ defmodule Rumbl.Models do
   alias Rumbl.Repo
 
   alias Rumbl.Models.Video
+  alias Rumbl.Models.Category
 
   @doc """
   Returns the list of videos.
@@ -117,5 +118,13 @@ defmodule Rumbl.Models do
     user
     |> Ecto.build_assoc(:videos)
     |> change_video()
+  end
+
+  def load_categories() do
+    query =
+      Category
+      |> Category.alphabetical
+      |> Category.names_and_ids
+    Repo.all query
   end
 end

@@ -1,7 +1,7 @@
 defmodule Rumbl.Models.User do
     use Ecto.Schema #En el libro se ve como use Rumbl.Web, :model
     import Ecto.Changeset
-    alias Rumbl.Models.User
+    #alias Rumbl.Models.User
 
     schema "users" do
         field :name, :string
@@ -21,6 +21,7 @@ defmodule Rumbl.Models.User do
         model
         |> cast(params, ~w(name username), []) #Es necesario el import Ecto.Changeset
         |> validate_length(:username, min: 1, max: 20)
+        |> unique_constraint(:username) #Agrega el manejo de errores del Unique, para que no se estalle la app sino que muestra una validación más en el front
     end
 
     def registration_changeset(model, params) do
@@ -34,7 +35,7 @@ defmodule Rumbl.Models.User do
     defp put_pass_hash(changeset) do
         case changeset do
             %Ecto.Changeset{valid?: true, changes: %{password: pass}} -> #valida que el changeset sea valido
-                put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass)) #Si es valido, entonces se realiza la insercion de la contraseña 
+                put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass)) #Si es valido, entonces se realiza la insercion de la contraseña
             _ -> changeset
         end
     end
