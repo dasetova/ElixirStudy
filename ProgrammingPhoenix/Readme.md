@@ -284,6 +284,40 @@ Capturar errores al intentar eliminar un registro. Por ejemplo, al intentar borr
 * **Let it crash**
 Using changeset constraints only makes sense if the error message can be something the user can take action on.
 
+## Chapter 8: Testing MVC
+* Principios de pruebas:
+	* Fast: Los test corren rápido y concurrentes.
+	* Isolated: Ni mucho que no sea útil, ni poco que se muy complejo.
+	* DRY (Don't Repeat Yourself): Eliminar repitición innecesaria.
+	* Repeatable: Siempre deben mostrar los mismos resultados.
+* Tipos de Test:
+	* Unit Test: Prueba una función de una capa de la aplicación.
+	* Integration Test: Como varias capas funcionan juntas. Normalmente son pruebas sobre los controladores, por ejemplo.
+	* Acceptance test case: Toda una prueba funcional. Por ejemplo, iniciar sesión y cerrar sesión posteriormente, es decir, puede combinar varias de integración. *No cubierta en el libro*
+	* Performance Test: Como carga la aplicación. *No cubierta en el libro*
+
+### Understanding ExUnit
+**ExUnit** es el framework de pruebas de elixir.
+* *setup* macro para configuracion
+* *test* macro para un caso de prueba
+* *assert* macro para verificar si se cumple una condición.
+**mix test** permite ejecutar los test case definidos con ExUnit en Phoenix.
+
+
+%{"name" => "another_user", "password" => test123, "username" => "anon"}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

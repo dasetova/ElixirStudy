@@ -2,47 +2,49 @@ defmodule Rumbl.ModelsTest do
   use Rumbl.DataCase
 
   alias Rumbl.Models
+  alias Rumbl.Repo
 
   describe "videos" do
-    alias Rumbl.Models.Video
+    alias Rumbl.Models.{Video,User}
 
     @valid_attrs %{description: "some description", title: "some title", url: "some url"}
     @update_attrs %{description: "some updated description", title: "some updated title", url: "some updated url"}
     @invalid_attrs %{description: nil, title: nil, url: nil}
+    @user Repo.get(User, 1)
 
     def video_fixture(attrs \\ %{}) do
       {:ok, video} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Models.create_video()
+        |> Models.create_video(@user)
 
       video
     end
 
     test "list_videos/0 returns all videos" do
       video = video_fixture()
-      assert Models.list_videos() == [video]
+      assert Models.list_videos(@user) == [video]
     end
 
     test "get_video!/1 returns the video with given id" do
       video = video_fixture()
-      assert Models.get_video!(video.id) == video
+      assert Models.get_video!(video.id, @user) == video
     end
 
     test "create_video/1 with valid data creates a video" do
-      assert {:ok, %Video{} = video} = Models.create_video(@valid_attrs)
+      assert {:ok, %Video{} = video} = Models.create_video(@valid_attrs, @user)
       assert video.description == "some description"
       assert video.title == "some title"
       assert video.url == "some url"
     end
 
     test "create_video/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Models.create_video(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Models.create_video(@invalid_attrs, @user)
     end
 
     test "update_video/2 with valid data updates the video" do
       video = video_fixture()
-      assert {:ok, video} = Models.update_video(video, @update_attrs)
+      assert {:ok, video} = Models.update_video(video, @update_attrs, @user)
       assert %Video{} = video
       assert video.description == "some updated description"
       assert video.title == "some updated title"
@@ -51,19 +53,19 @@ defmodule Rumbl.ModelsTest do
 
     test "update_video/2 with invalid data returns error changeset" do
       video = video_fixture()
-      assert {:error, %Ecto.Changeset{}} = Models.update_video(video, @invalid_attrs)
-      assert video == Models.get_video!(video.id)
+      assert {:error, %Ecto.Changeset{}} = Models.update_video(video, @invalid_attrs, @user)
+      assert video == Models.get_video!(video.id, @user)
     end
 
     test "delete_video/1 deletes the video" do
       video = video_fixture()
-      assert {:ok, %Video{}} = Models.delete_video(video)
-      assert_raise Ecto.NoResultsError, fn -> Models.get_video!(video.id) end
+      assert {:ok, %Video{}} = Models.delete_video(video, @user)
+      assert_raise Ecto.NoResultsError, fn -> Models.get_video!(video.id, @user) end
     end
 
     test "change_video/1 returns a video changeset" do
       video = video_fixture()
-      assert %Ecto.Changeset{} = Models.change_video(video)
+      assert %Ecto.Changeset{} = Models.change_video(video, @user)
     end
   end
 end
