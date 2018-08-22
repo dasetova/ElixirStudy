@@ -298,43 +298,10 @@ Using changeset constraints only makes sense if the error message can be somethi
 
 ### Understanding ExUnit
 **ExUnit** es el framework de pruebas de elixir.
-* *setup* macro para configuracion
-* *test* macro para un caso de prueba
-* *assert* macro para verificar si se cumple una condición.
+* *setup* macro para configuracion, se ejecuta antes que cada test
+* *test* macro para un caso de prueba. Espeficicación de cada testCase
+* *assert* macro para verificar si se cumple una condición. Puede ser *assert true* o *assert false*. Tiene varias funciones para simplificar las verificaciones como *html_response*
 **mix test** permite ejecutar los test case definidos con ExUnit en Phoenix.
 
 
 %{"name" => "another_user", "password" => test123, "username" => "anon"}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

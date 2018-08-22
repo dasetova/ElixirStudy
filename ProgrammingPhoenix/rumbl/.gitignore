@@ -1,5 +1,7 @@
 # App artifacts
 /_build
+.elixir_ls
+/.elixir_ls
 /db
 /deps
 /*.ez
