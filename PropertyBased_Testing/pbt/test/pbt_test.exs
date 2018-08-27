@@ -138,8 +138,7 @@ defmodule PbtTest do
 
   property "queue with let macro" do
     forall(q <- queue()) do
-      q = :queue.from_list(list)
-      :queue.is_queue(q)
+      q = :queue.is_queue(q)
     end
   end
 
@@ -211,5 +210,65 @@ defmodule PbtTest do
     let(list <- list({term(), term()})) do
       :queue.from_list(list)
     end
+  end
+
+  def non_empty_impl(list_type) do
+    such_that(l <- list_type, when: l != [] and l != <<>>)
+  end
+
+  def non_empty_map_impl(gen) do
+    such_that(g <- gen, when: g != %{})
+  end
+
+  # Implementacion con such_that
+  # def even do
+  #  such_that n <- integer(), when rem(n,2) == 0
+  # end
+
+  # def uneven do
+  # such_that n <- integer(), when rem(n,2) != 0
+  # end
+  # Implementacion correcta con let
+  def even do
+    let n <- integer() do
+      n * 2
+    end
+  end
+
+  def uneven do
+    let n <- integer() do
+      n * 2 + 1
+    end
+  end
+
+  def text_like() do
+    let l <-
+          list(
+            frequency([
+              {80, range(?a, ?z)},
+              {10, ?\s},
+              {1, ?\n},
+              {1, oneof([?., ?-, ?!, ??, ?,])},
+              {1, range(?0, ?9)}
+            ])
+          ) do
+      to_string(l)
+    end
+  end
+
+  def mostly_sorted() do
+    gen =
+      list(
+        frequency([
+          {5, sorted_list()},
+          {1, list()}
+        ])
+      )
+
+    let(lists <- gen, do: Enum.concat(lists))
+  end
+
+  def sorted_list() do
+    let(l <- list(), do: Enum.sort(l))
   end
 end
